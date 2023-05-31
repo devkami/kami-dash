@@ -5,7 +5,6 @@ from datetime import date, datetime
 
 import dash
 import dash_bootstrap_components as dbc
-import pkg_resources
 from dash import Input, Output, State, dcc, html
 from dash_bootstrap_templates import ThemeSwitchAIO
 

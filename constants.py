@@ -1,9 +1,6 @@
 # -*- coding: utf-8 -*-
 
 from datetime import datetime, timedelta
-from dotenv import load_dotenv
-
-load_dotenv()
 
 months_ptbr = {
     1: 'Janeiro',
@@ -55,188 +52,14 @@ weekdays_ptbr_abbr = {
     6: 'DOM',
 }
 
-industry_areas = ['SITE', 'SALAO', 'PERFUMARIA']
 
-tags = ['_liquido', '_bruto', '_desconto', '_bonificado', '_enxoval']
 starting_year = 2022
 
-scope = 'https://www.googleapis.com/auth/drive'
-key_file_location = 'service_account_credentials.json'
 current_month = datetime.now().month
 current_year = datetime.now().year
 current_day = datetime.now().day
-end_week = datetime.now() - timedelta(days=datetime.today().weekday())
-start_week = end_week - timedelta(days=7)
-current_weekday = datetime.today().weekday()
-week_year_number = datetime.now().strftime('%V')
-current_week_folder = f'Semana-{week_year_number} ({start_week.day}-{start_week.month} a {end_week.day}-{end_week.month})'
-current_day_folder = f'{current_day}-{weekdays_ptbr_abbr[current_weekday]}'
-comercial_week = [0, 1, 2, 3, 4]
 
-columns_names_masters = [
-    'cod_cliente',
-    'razao_social',
-    'nome_cliente',
-    'ramo_atividade',
-    'data_cadastro',
-    'bairro',
-    'cidade',
-    'uf',
-    'endereco',
-    'numero',
-    'cep',
-    'cod_colaborador',
-    'nome_colaborador',
-    'dias_atraso',
-    'valor_devido',
-    'dt_primeira_compra',
-    'dt_ultima_compra',
-    'qtd_total_compras',
-    'qtd_compras_semestre',
-    'total_compras_bimestre',
-    'total_compras_trimestre',
-    'total_compras_semestre',
-]
-columns_names_renato = [
-    'ano',
-    'mes',
-    'cod_empresa',
-    'cod_pedido',
-    'cod_cliente',
-    'nome_cliente',
-    'nr_ped_compra_cli',
-    'situacao_pedido',
-    'nop',
-    'desc_abrev_cfop',
-    'desc_abreviada',
-    'cod_colaborador',
-    'nome_colaborador',
-    'cod_cond_pagto',
-    'cod_forma_pagto',
-    'desc_abrev',
-    'cod_produto',
-    'desc_comercial',
-    'qtd',
-    'custo_total',
-    'custo_kami',
-    'tb_preco',
-    'preco_unit_original',
-    'preco_total_original',
-    'margem_bruta',
-    'preco_total',
-    'preco_desconto_rateado',
-    'vl_total_pedido',
-    'desconto_pedido',
-    'valor_nota',
-    'dt_implante_pedido',
-    'dt_entrega_comprometida',
-    'situacao_entrega',
-    'descricao',
-    'dt_faturamento',
-    'marca',
-    'empresa_pedido',
-    'empresa_nf',
-]
-columns_names_products = [
-    'empresa',
-    'cod_interno',
-    'ano',
-    'mes',
-    'data_completa',
-    'cod_cliente',
-    'razao_social',
-    'cod_colaborador',
-    'nome_colaborador',
-    'cod_produto',
-    'nome_produto',
-    'cod_grupo',
-    'nome_grupo',
-    'cod_grupo_pai',
-    'nome_grupo_pai',
-    'nop',
-    'qtd',
-    'tipo_Venda',
-    'codigo_Venda',
-]
-columns_names_overdue = [
-    'cod_cliente',
-    'razao_social',
-    'nome_cliente',
-    'tipo',
-    'data_cadastro',
-    'bairro',
-    'cidade',
-    'estado',
-    'endereco',
-    'numero',
-    'cep',
-    'cod_colaborador',
-    'nome_colaborador',
-    'cod_empresa',
-    'nome_empresa',
-    'dias_atraso',
-    'valor_devido',
-    'dt_ultima_compra',
-    'dt_primeira_compra',
-    'qtd_total_compras',
-    'qtd_compras_semestre',
-    'total_compras_90_dias',
-]
-columns_names_brands_billing = [
-    'ano',
-    'mes',
-    'empresa_pedido',
-    'empresa_nota_fiscal',
-    'cod_cliente',
-    'nome_cliente',
-    'razao_social',
-    'ramo_atividade',
-    'bairro',
-    'cidade',
-    'uf',
-    'endereco',
-    'numero',
-    'cep',
-    'data_cadastro',
-    'dias_atraso',
-    'valor_devido',
-    'dt_primeira_compra',
-    'dt_ultima_compra',
-    'cod_colaborador',
-    'nome_colaborador',
-    'cod_pedido',
-    'nr_ped_compra_cli',
-    'cod_situacao',
-    'desc_situacao',
-    'nop',
-    'cfop',
-    'cod_cond_pagto',
-    'cod_forma_pagto',
-    'forma_pgto',
-    'cod_produto',
-    'desc_produto',
-    'cod_grupo_produto',
-    'desc_grupo_produto',
-    'cod_grupo_pai',
-    'desc_grupo_pai',
-    'cod_marca',
-    'desc_marca',
-    'custo_total',
-    'custo_kami',
-    'tb_preco',
-    'qtd',
-    'preco_unit_original',
-    'preco_total_original',
-    'margem_bruta',
-    'preco_total',
-    'preco_desconto_rateado',
-    'vl_total_pedido',
-    'vl_desconto',
-    'valor_nota',
-    'dt_implante_pedido',
-    'dt_entrega_comprometida',
-    'dt_faturamento',
-]
+
 columns_names_head = [
     'cod_colaborador',
     'nome_colaborador',
