@@ -28,7 +28,7 @@ from dataframe import get_vw_kami_bi_df_from_csv, build_orders_df
 app = dash.Dash(__name__, external_stylesheets=[dbc.themes.BOOTSTRAP])
 server = app.server
 
-app_version = pkg_resources.get_distribution('my-package-name').version
+app_version = '0.1.0'
 app_logger = logging.getLogger('kami-sales-dashboard')
 app_logger.info('Get BI from database')
 products_df = get_vw_kami_bi_df_from_csv('kami_sales_dashboard/data/out/kami_bi.csv')
