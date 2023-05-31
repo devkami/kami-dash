@@ -7,11 +7,7 @@ from os import system
 from typing import Dict, List
 
 import pandas as pd
-from dotenv import load_dotenv
-from kami_logging import benchmark_with, logging_with
 from numpy import dtype
-from sqlalchemy import create_engine
-from sqlalchemy.engine import URL
 
 from constants import (
     columns_names_head,
@@ -32,8 +28,8 @@ from constants import (
 db_connector_logger = logging.getLogger('db_connector_logger')
 
 
-@benchmark_with(db_connector_logger)
-@logging_with(db_connector_logger)
+
+
 def get_vw_kami_bi_df_from_csv(csv_file) -> pd.DataFrame:
     df = pd.read_csv(csv_file, delimiter=';')
     return df
@@ -44,8 +40,8 @@ def clean_number_col(df, number_col):
         return df[number_col].str.extract(pat='(\d+)', expand=False)
 
 
-@benchmark_with(db_connector_logger)
-@logging_with(db_connector_logger)
+
+
 def group_by_orders(df, order_cols) -> pd.DataFrame:
     return df.drop_duplicates(subset=order_cols)
 
@@ -57,8 +53,8 @@ def clean_strtoint_col(df, number_col) -> pd.Series:
     return clean_col
 
 
-@benchmark_with(db_connector_logger)
-@logging_with(db_connector_logger)
+
+
 def convert_number_cols(df) -> pd.DataFrame:
     df[str_to_int_cols] = (
         df[str_to_int_cols]
@@ -75,20 +71,20 @@ def convert_number_cols(df) -> pd.DataFrame:
     return df
 
 
-@benchmark_with(db_connector_logger)
-@logging_with(db_connector_logger)
+
+
 def clean_orders_df(orders_df) -> pd.DataFrame:
     return convert_number_cols(orders_df, int_cols, float_cols)
 
 
-@benchmark_with(db_connector_logger)
-@logging_with(db_connector_logger)
+
+
 def build_orders_df(df) -> pd.DataFrame:
     return group_by_orders(convert_number_cols(df), order_cols=['cod_pedido'])
 
 
-@benchmark_with(db_connector_logger)
-@logging_with(db_connector_logger)
+
+
 def filter_orders_by_nops(orders_df, nops) -> pd.DataFrame:
     return orders_df.loc[orders_df.nop.isin(nops)]
 
@@ -101,8 +97,8 @@ def flat_and_tag_motnh_and_year_cols(df, tag='') -> pd.DataFrame:
     return df
 
 
-@benchmark_with(db_connector_logger)
-@logging_with(db_connector_logger)
+
+
 def calculate_col_by_costumer(orders_df, col, operation) -> pd.DataFrame:
     orders_df = build_orders_df(orders_df)
     return orders_df.pivot_table(
@@ -212,8 +208,8 @@ def sum_sales_by_costumer_and_period(
     return orders_df[period_cols].sum(axis=1)
 
 
-@benchmark_with(db_connector_logger)
-@logging_with(db_connector_logger)
+
+
 def build_master_df(df) -> pd.DataFrame:
     master_df = pd.DataFrame()
     head_df = group_by_orders(df, order_cols=['cod_cliente'])[
@@ -280,8 +276,8 @@ def build_master_df(df) -> pd.DataFrame:
     return master_df
 
 
-@benchmark_with(db_connector_logger)
-@logging_with(db_connector_logger)
+
+
 def get_template_df(df) -> pd.DataFrame:
     return df[template_cols]
 
@@ -411,8 +407,8 @@ def get_key_from_value(dictionary, value):
     return None
 
 
-@benchmark_with(db_connector_logger)
-@logging_with(db_connector_logger)
+
+
 def get_opt_lists_from_df(df, cols) -> Dict:
     opt_lists = {}
     df_template = get_template_df(df)
@@ -437,8 +433,8 @@ def get_opt_lists_from_df(df, cols) -> Dict:
     return opt_lists
 
 
-@benchmark_with(db_connector_logger)
-@logging_with(db_connector_logger)
+
+
 def execute_query(sql_file, db_conn):
     db_connector_logger.info(f'execute {sql_file}')
     system(
@@ -446,8 +442,8 @@ def execute_query(sql_file, db_conn):
     )
 
 
-@benchmark_with(db_connector_logger)
-@logging_with(db_connector_logger)
+
+
 def main():
     ...
 
