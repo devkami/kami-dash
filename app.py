@@ -30,7 +30,7 @@ server = app.server
 app_version = '0.1.0'
 app_logger = logging.getLogger('kami-sales-dashboard')
 app_logger.info('Get BI from database')
-products_df = get_vw_kami_bi_df_from_csv('kami_sales_dashboard/data/out/kami_bi.csv')
+products_df = get_vw_kami_bi_df_from_csv('data/out/kami_bi.csv')
 orders_df = build_orders_df(products_df)
 sales_orders_df = orders_df.loc[orders_df['nop'].isin(sale_nops)]
 
