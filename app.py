@@ -22,7 +22,7 @@ from components import (
     total_sales_indicator,
 )
 from constants import current_day, current_month, current_year, sale_nops
-from dataframe import get_vw_kami_bi_df_from_csv, build_orders_df
+from dataframe import build_orders_df, get_vw_kami_bi_df_from_csv
 
 app = dash.Dash(__name__, external_stylesheets=[dbc.themes.BOOTSTRAP])
 server = app.server
@@ -30,7 +30,7 @@ server = app.server
 app_version = '0.1.0'
 app_logger = logging.getLogger('kami-sales-dashboard')
 app_logger.info('Get BI from database')
-products_df = get_vw_kami_bi_df_from_csv('kami_sales_dashboard/data/out/kami_bi.csv')
+products_df = get_vw_kami_bi_df_from_csv('data/out/kami_bi.csv')
 orders_df = build_orders_df(products_df)
 sales_orders_df = orders_df.loc[orders_df['nop'].isin(sale_nops)]
 
@@ -418,7 +418,7 @@ footer_row = html.Footer(
                                     [
                                         html.P(
                                             [
-                                                f"version: {app_version} - ",
+                                                f'version: {app_version} - ',
                                                 f'@ {datetime.now().year} Copyright: ',
                                                 html.A(
                                                     'KAMI CO.',

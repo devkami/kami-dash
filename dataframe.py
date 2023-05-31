@@ -28,18 +28,15 @@ from constants import (
 db_connector_logger = logging.getLogger('db_connector_logger')
 
 
-
-
 def get_vw_kami_bi_df_from_csv(csv_file) -> pd.DataFrame:
     df = pd.read_csv(csv_file, delimiter=';')
+    df = df.replace('\\N', '')
     return df
 
 
 def clean_number_col(df, number_col):
     if dtype(df[number_col]) not in ['int64', 'float64']:
         return df[number_col].str.extract(pat='(\d+)', expand=False)
-
-
 
 
 def group_by_orders(df, order_cols) -> pd.DataFrame:
@@ -53,36 +50,28 @@ def clean_strtoint_col(df, number_col) -> pd.Series:
     return clean_col
 
 
-
-
 def convert_number_cols(df) -> pd.DataFrame:
-    df[str_to_int_cols] = (
-        df[str_to_int_cols]
+    number_cols = str_to_int_cols + int_cols + float_cols
+    df[number_cols] = (
+        df[number_cols]
         .replace(regex=[r'\D+'], value='')
         .apply(pd.to_numeric)
         .fillna(0)
-        .astype(int)
     )
-    df[int_cols] = df[int_cols].fillna(0).astype(int)
-    df[float_cols] = (
-        df[float_cols].replace(',', '.', regex=True).fillna(0).astype(float)
-    )
+    df[str_to_int_cols] = df[str_to_int_cols].astype(int)
+    df[int_cols] = df[int_cols].astype(int)
+    df[float_cols] = df[float_cols].replace(',', '.', regex=True).astype(float)
     df['cep'] = df['cep'].str.extract(pat='(\d+)', expand=False)
+
     return df
-
-
 
 
 def clean_orders_df(orders_df) -> pd.DataFrame:
     return convert_number_cols(orders_df, int_cols, float_cols)
 
 
-
-
 def build_orders_df(df) -> pd.DataFrame:
     return group_by_orders(convert_number_cols(df), order_cols=['cod_pedido'])
-
-
 
 
 def filter_orders_by_nops(orders_df, nops) -> pd.DataFrame:
@@ -95,8 +84,6 @@ def flat_and_tag_motnh_and_year_cols(df, tag='') -> pd.DataFrame:
         lambda x: f'{months_ptbr_abbr.get(x[1])}_{x[0]}{tag}'
     )
     return df
-
-
 
 
 def calculate_col_by_costumer(orders_df, col, operation) -> pd.DataFrame:
@@ -208,8 +195,6 @@ def sum_sales_by_costumer_and_period(
     return orders_df[period_cols].sum(axis=1)
 
 
-
-
 def build_master_df(df) -> pd.DataFrame:
     master_df = pd.DataFrame()
     head_df = group_by_orders(df, order_cols=['cod_cliente'])[
@@ -274,8 +259,6 @@ def build_master_df(df) -> pd.DataFrame:
         )
 
     return master_df
-
-
 
 
 def get_template_df(df) -> pd.DataFrame:
@@ -407,8 +390,6 @@ def get_key_from_value(dictionary, value):
     return None
 
 
-
-
 def get_opt_lists_from_df(df, cols) -> Dict:
     opt_lists = {}
     df_template = get_template_df(df)
@@ -433,8 +414,6 @@ def get_opt_lists_from_df(df, cols) -> Dict:
     return opt_lists
 
 
-
-
 def execute_query(sql_file, db_conn):
     db_connector_logger.info(f'execute {sql_file}')
     system(
@@ -442,11 +421,8 @@ def execute_query(sql_file, db_conn):
     )
 
 
-
-
 def main():
     ...
-
 
 
 if __name__ == '__main__':

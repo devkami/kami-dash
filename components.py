@@ -9,12 +9,7 @@ from dash import Input, dcc, html
 from dash.exceptions import PreventUpdate
 from numerize import numerize
 
-from constants import (
-    filter_cols,
-    sale_nops,
-    starting_year,
-    trans_cols,
-)
+from constants import filter_cols, sale_nops, starting_year, trans_cols
 from dataframe import (
     get_opt_lists_from_df,
     get_salesperson_opt_list,
