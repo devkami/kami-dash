@@ -29,7 +29,7 @@ db_connector_logger = logging.getLogger('db_connector_logger')
 
 
 def get_vw_kami_bi_df_from_csv(csv_file) -> pd.DataFrame:
-    df = pd.read_csv(csv_file, delimiter=';')
+    df = pd.read_csv(csv_file, sep=';', decimal='.', skiprows=[1])
     df = df.replace('\\N', '')
     return df
 
@@ -51,16 +51,15 @@ def clean_strtoint_col(df, number_col) -> pd.Series:
 
 
 def convert_number_cols(df) -> pd.DataFrame:
-    number_cols = str_to_int_cols + int_cols + float_cols
+    number_cols = str_to_int_cols + int_cols
     df[number_cols] = (
         df[number_cols]
-        .replace(regex=[r'\D+'], value='')
+        .replace(regex=[r'\D+'], value=None)
         .apply(pd.to_numeric)
         .fillna(0)
-    )
-    df[str_to_int_cols] = df[str_to_int_cols].astype(int)
-    df[int_cols] = df[int_cols].astype(int)
-    df[float_cols] = df[float_cols].replace(',', '.', regex=True).astype(float)
+        .astype(int)
+    ) 
+    df[float_cols] = df[float_cols].replace('', '0').fillna(0).astype(float)
     df['cep'] = df['cep'].str.extract(pat='(\d+)', expand=False)
 
     return df
