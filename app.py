@@ -26,6 +26,7 @@ from constants import current_day, current_month, current_year, sale_nops
 from dataframe import get_vw_kami_bi_df_from_csv, build_orders_df
 
 app = dash.Dash(__name__, external_stylesheets=[dbc.themes.BOOTSTRAP])
+server = app.server
 
 app_version = pkg_resources.get_distribution('my-package-name').version
 app_logger = logging.getLogger('kami-sales-dashboard')
